@@ -11,44 +11,35 @@ from models.review import Review
 
 
 class FileStorage:
-    """Represent an abstracted storage engine.
+    """Serializes instances to a JSON file and deserializes JSON file to instances."""
 
-    Attributes:
-       __file_path (str): The name of the file to save objects to.
-       __objects (dict): A dictionary of instantiated objects.
-    """
     __file_path = "file.json"
     __objects = {}
 
-
     def all(self):
-        """Return the dictionary __objects."""
+        """Returns the dictionary __objects."""
         return self.__objects
 
     def new(self, obj):
-        """Set in __objects obj with key <obj_class_name>.id"""
+        """Sets in __objects the obj with key <obj class name>.id."""
         key = "{}.{}".format(obj.__class__.__name__, obj.id)
         self.__objects[key] = obj
 
     def save(self):
-        """Serialize __objects to the JSON file __file_path."""
-        serialized_objects = {}
-        for key, obj in self.__objects.items():
-            serialized_objects[key] = obj.to_dict()
-
-        with open(self.__file_path, 'w') as file:
-            json.dump(serialized_objects, file)
+        """Serializes __objects to the JSON file (path: __file_path)."""
+        serializable_dict = {k: v.to_dict() for k, v in self.__objects.items()}
+        with open(self.__file_path, 'w', encoding='utf-8') as file:
+            json.dump(serializable_dict, file)
 
     def reload(self):
-        """Deserialize the JSON file __file_path to __objects, if it exists."""
+        """Deserializes the JSON file to __objects."""
         try:
-            with open(self.__file_path, 'r') as file:
-                serialized_objects = json.load(file)
-                for key, obj_dict in serialized_objects.items():
-                    class_name, obj_id = key.split('.')
-                    obj_dict['__class__'] = class_name
-                    obj = eval(class_name)(**obj_dict)
-                    self.__objects[key] = obj
-
+            with open(self.__file_path, 'r', encoding='utf-8') as file:
+                json_dict = json.load(file)
+            for k, v in json_dict.items():
+                class_name, obj_id = k.split('.')
+                class_lookup = {"BaseModel": BaseModel, "State": State, "City": City, "Amenity": Amenity, "Place": Place, "Review": Review}
+                obj = class_lookup[class_name](**v)
+                self.__objects[k] = obj
         except FileNotFoundError:
-            return
+            pass
