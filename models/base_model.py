@@ -21,10 +21,10 @@ class BaseModel:
         self.updated_at = datetime.today()
         if kwargs:
             for key, value in kwargs.items():
-                if key in ["created_at", "updated_at"]:
-                    setattr(self, key, datetime.strptime(value, timestamp_format))
+                if key == "created_at" or key == "updated_at":
+                    self.__dict__[key] = datetime.strptime(value, timestamp_format)
                 else:
-                    setattr(self, key, value)
+                    self.__dict__[key] = value
         else:
             models.storage.new(self)
 
