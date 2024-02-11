@@ -18,4 +18,4 @@ class State(BaseModel):
             **kwargs (dict): Key/value pairs of attributes.
         """
         super().__init__(*args, **kwargs)
-        self.name = kwargs.get('name', "")
+        self.name = kwargs.get('name', '')
