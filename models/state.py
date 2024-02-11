@@ -10,12 +10,4 @@ class State(BaseModel):
         name (str): The name of the state.
     """
 
-    def __init__(self, *args, **kwargs):
-        """Initialize a new State instance.
-
-        Args:
-            *args (any): Unused.
-            **kwargs (dict): Key/value pairs of attributes.
-        """
-        super().__init__(*args, **kwargs)
-        self.name = kwargs.get('name', '')
+    name = ""
