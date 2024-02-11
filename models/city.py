@@ -8,9 +8,5 @@ class City(BaseModel):
     def __init__(self, *args, **kwargs):
         """Initialize a new City."""
         super().__init__(*args, **kwargs)
-        self.state_id = ""
-        self.name = ""
-
-    def __str__(self):
-        """Return the print/str representation of the City instance."""
-        return "[City] ({}) {}".format(self.id, self.__dict__)
+        self.state_id = kwargs.get('state_id', "")
+        self.name = kwargs.get('name', "")
