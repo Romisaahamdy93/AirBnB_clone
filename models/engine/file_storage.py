@@ -8,6 +8,7 @@ from models.city import City
 from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
+from os import path
 
 
 class FileStorage:
@@ -22,7 +23,7 @@ class FileStorage:
 
     def all(self):
         """Return the dictionary __objects."""
-        return FileStorage.__objects.copy()  # Make a copy for safety
+        return FileStorage.__objects
 
     def new(self, obj):
         """Set in __objects obj with key <obj_class_name>.id"""
@@ -31,6 +32,7 @@ class FileStorage:
 
     def save(self):
         """Serialize __objects to the JSON file __file_path."""
+        obj_dict = FileStorage.__objects
         obj_dict = {key: obj.to_dict() for key, obj in FileStorage.__objects.items()}
         with open(FileStorage.__file_path, "w") as file:
             json.dump(obj_dict, file)
