@@ -1,23 +1,19 @@
 #!/usr/bin/python3
-"""Defines the Review class."""
+"""Defines the User class."""
 from models.base_model import BaseModel
 
-class Review(BaseModel):
-    """Represent a review.
+
+class User(BaseModel):
+    """Represent a User.
 
     Attributes:
-        place_id (str): The Place id.
-        user_id (str): The User id.
-        text (str): The text of the review.
+        email (str): The email of the user.
+        password (str): The password of the user.
+        first_name (str): The first name of the user.
+        last_name (str): The last name of the user.
     """
 
-    def __init__(self, *args, **kwargs):
-        """Initialize Review instance."""
-        super().__init__(*args, **kwargs)
-        self.place_id = ""
-        self.user_id = ""
-        self.text = ""
-
-    def __str__(self):
-        """Return the string representation of Review."""
-        return "[Review] ({}) {}".format(self.id, self.to_dict())
+    email = ""
+    password = ""
+    first_name = ""
+    last_name = ""
