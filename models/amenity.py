@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Defines the Amenity class."""
+
 from models.base_model import BaseModel
 
 
@@ -10,4 +11,11 @@ class Amenity(BaseModel):
         name (str): The name of the amenity.
     """
 
-    name = ""
+    def __init__(self, *args, **kwargs):
+        """Initialize Amenity instance."""
+        super().__init__(*args, **kwargs)
+        self.name = ""
+
+    def __str__(self):
+        """Return the string representation of the Amenity instance."""
+        return "[Amenity] ({}) {}".format(self.id, self.to_dict())
